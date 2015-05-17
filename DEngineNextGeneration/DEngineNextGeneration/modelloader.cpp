@@ -39,19 +39,15 @@ namespace model
 			if( material[ i ].pTextureFilename != nullptr )
 			{
 				//load texture
-				if( D3DXCreateTextureFromFile( device, material[ i ].pTextureFilename, std::addressof( tex[ i ]  )) )
-				{
-					
-				}
-				else
-				{
-					//set texture
-				}
+				D3DXCreateTextureFromFile( device, material[ i ].pTextureFilename, std::addressof( tex[ i ] ) );
+
 			}
 
 			material[ i ].MatD3D.Ambient = material[ i ].MatD3D.Diffuse;
 		}
 		material_buffer->Release();
+
+
 	}
 
 }

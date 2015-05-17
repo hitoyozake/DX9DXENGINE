@@ -11,6 +11,7 @@ namespace model
 		std::vector< D3DXMATERIAL > material();
 		bool is_ready() const;
 		std::string const & debug_message();
+
 	private:
 		std::string name_ = false;
 		std::vector< D3DXMATERIAL > material_;

@@ -83,6 +83,7 @@
     <ClCompile Include="directx_class_define.cpp" />
     <ClCompile Include="foo.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="modelloader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +93,7 @@
     <ClInclude Include="directx_include.h" />
     <ClInclude Include="foo.h" />
     <ClInclude Include="game_main.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="modelloader.h" />
     <ClInclude Include="standard_include.h" />
   </ItemGroup>
