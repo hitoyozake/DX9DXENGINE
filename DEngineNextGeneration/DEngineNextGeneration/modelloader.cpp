@@ -29,7 +29,8 @@ namespace model
 			//–@ü‚ª–³‚¢ê‡‚Ìˆ—
 		}
 
-		auto material = std::vector< D3DXMATERIAL >( static_cast< D3DXMATERIAL * >( material_buffer->GetBufferPointer() ),
+		auto material = std::vector< D3DXMATERIAL >( static_cast< D3DXMATERIAL * >
+( material_buffer->GetBufferPointer() ),
 			static_cast< D3DXMATERIAL * >( material_buffer->GetBufferPointer() ) + material_num );
 
 		std::vector< LPDIRECT3DTEXTURE9 > tex( material_num, nullptr );
@@ -39,7 +40,9 @@ namespace model
 			if( material[ i ].pTextureFilename != nullptr )
 			{
 				//load texture
-				if( D3DXCreateTextureFromFile( device, material[ i ].pTextureFilename, std::addressof( tex[ i ]  )) )
+				if( D3DXCreateTextureFromFile( 
+					device, material[ i ].pTextureFilename,
+					std::addressof( tex[ i ] ) ) )
 				{
 					
 				}
@@ -51,7 +54,12 @@ namespace model
 
 			material[ i ].MatD3D.Ambient = material[ i ].MatD3D.Diffuse;
 		}
+
 		material_buffer->Release();
+
+		model * m = new model( tex );
+
+		return boost::optional< i_model * >( reinterpret_cast< i_model * >( std::addressof( m ) ) );
 	}
 
 }
