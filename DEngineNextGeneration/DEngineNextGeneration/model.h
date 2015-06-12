@@ -2,20 +2,27 @@
 
 #include "modelloader.h"
 
-namespace model
+namespace models
 {
-	class model : i_model
+	class model : public i_model
 	{
 	public:
 		std::string const & name() const;
-		std::vector< D3DXMATERIAL > material();
+		std::vector< D3DMATERIAL9 > material();
+		std::vector< LPDIRECT3DTEXTURE9 > tex();
+		LPD3DXMESH mesh();
+
 		bool is_ready() const;
 		std::string const & debug_message();
 
+		model( std::vector< LPDIRECT3DTEXTURE9 > const & tex, std::vector< D3DMATERIAL9 > const & m, LPD3DXMESH const & mesh );
+
 	private:
-		std::string name_ = false;
-		std::vector< D3DXMATERIAL > material_;
+		std::string name_ = "";
+		std::vector< D3DMATERIAL9 > material_;
 		std::vector< LPDIRECT3DTEXTURE9> tex_;
+
+		LPD3DXMESH mesh_;
 
 		bool ready_flag_;
 		std::string debug_message_;

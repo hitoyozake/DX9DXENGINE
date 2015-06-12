@@ -1,14 +1,21 @@
 #include "modelloader.h"
+#include "model.h"
 
-namespace model
+namespace models
 {
-	boost::optional< i_model * > model_loader::load_model( std::string const & path ) const
+	i_model::~i_model()
+	{
+	}
+
+	i_model::i_model()
+	{
+
+	}
+	boost::optional< i_model * > model_loader::load_model( std::string const & path, LPDIRECT3DDEVICE9 const device ) const
 	{
 		LPD3DXBUFFER material_buffer, effect_buffer, adjacency_buffer;
 		LPD3DXMESH mesh;
 		DWORD material_num = 0;
-
-		LPDIRECT3DDEVICE9 device = nullptr;//fix me
 
 		auto const result_loading = D3DXLoadMeshFromX(
 			path.c_str(),
@@ -32,8 +39,9 @@ namespace model
 		auto material = std::vector< D3DXMATERIAL >( static_cast< D3DXMATERIAL * >
 ( material_buffer->GetBufferPointer() ),
 			static_cast< D3DXMATERIAL * >( material_buffer->GetBufferPointer() ) + material_num );
-
+		
 		std::vector< LPDIRECT3DTEXTURE9 > tex( material_num, nullptr );
+		std::vector< D3DMATERIAL9 > mtrl;
 
 		for( DWORD i = 0; i < material.size(); ++i )
 		{
@@ -44,7 +52,7 @@ namespace model
 					device, material[ i ].pTextureFilename,
 					std::addressof( tex[ i ] ) ) )
 				{
-					
+						
 				}
 				else
 				{
@@ -53,13 +61,14 @@ namespace model
 			}
 
 			material[ i ].MatD3D.Ambient = material[ i ].MatD3D.Diffuse;
+			mtrl.push_back( material[ i ].MatD3D );
 		}
 
 		material_buffer->Release();
 
-		model * m = new model( tex );
+		model * m = new model( tex, mtrl, mesh );
 
-		return boost::optional< i_model * >( reinterpret_cast< i_model * >( std::addressof( m ) ) );
+		return boost::optional< i_model * >( reinterpret_cast< i_model * >( m ) );
 	}
 
 }

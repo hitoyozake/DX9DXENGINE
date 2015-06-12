@@ -8,40 +8,30 @@
 #include <boost/optional.hpp>
 #include <vector>
 
-namespace model
+namespace models
 {
 
 	class i_model
 	{
 	public:
-		virtual std::string const & name() const = 0;
-		virtual std::vector< D3DXMATERIAL > material() = 0;
-		virtual ~i_model();
-		i_model( std::vector< LPDIRECT3DTEXTURE9 > const & t ) : tex_( t ) {}
-	private:
-		std::vector< LPDIRECT3DTEXTURE9 > tex_;
-		LPD3DXMESH mesh_origin_;
-
-	};
-
-	class model : i_model
-	{
-	public:
-		std::string const & name() const;
-		std::vector< D3DXMATERIAL > material();
-
-		~model() {}
-
-		model( std::vector< LPDIRECT3DTEXTURE9 > const & t ) : i_model( t )
-		{	
-
+		virtual std::string const & name() const
+		{
+			return "aa";
 		}
+		virtual std::vector< D3DMATERIAL9 > material() = 0;
+		virtual std::vector< LPDIRECT3DTEXTURE9 > tex() = 0;
+		virtual LPD3DXMESH mesh() = 0;
+		virtual ~i_model();
+		i_model();
+	private:
+		LPD3DXMESH mesh_origin_;
 	};
 
+	
 	class i_modelloader
 	{
 	public:
-		virtual boost::optional< i_model * > load_model( std::string const & path ) const= 0;
+		virtual boost::optional< i_model * > load_model( std::string const & path, LPDIRECT3DDEVICE9 const device ) const = 0;
 
 	private:
 	};
@@ -49,7 +39,7 @@ namespace model
 	class model_loader : i_modelloader
 	{
 	public:
-		boost::optional< i_model * > load_model( std::string const & path ) const;
+		boost::optional< i_model * > load_model( std::string const & path, LPDIRECT3DDEVICE9 const device ) const;
 	private:
 	};
 
@@ -67,6 +57,8 @@ namespace model
 		
 	private:
 	};
+
+	static model_loader mdl_loader;
 }
 
 

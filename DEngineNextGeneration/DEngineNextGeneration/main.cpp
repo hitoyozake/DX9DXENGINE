@@ -7,9 +7,14 @@
 #include "standard_include.h"
 #include "directx_class_def.h"
 #include "audio.h"
+#include "modelloader.h"
+#include "model.h"
+
 
 std::vector< D3DMATERIAL9 > mtral;
-std::vector< LPDIRECT3DTEXTURE9 > xtex;
+std::vector< LPDIRECT3DTEXTURE9 > xtex_;
+std::vector< models::i_model * > xtex;
+
 
 DWORD material_num = 0;
 LPD3DXMESH mesh;
@@ -157,15 +162,21 @@ namespace direct_x_settings
 		}
 
 		gl_lpD3ddev->SetVertexShader( NULL );
-		gl_lpD3ddev->SetFVF( mesh->GetFVF() );
 
-		for( int i = 0; i < material_num; ++i )
+
+
+		for( int j = 0; j < xtex.size(); ++j )
 		{
-			gl_lpD3ddev->SetMaterial( &mtral[ i ] );
-			gl_lpD3ddev->SetTexture( 0, xtex[ i ] );
-			mesh->DrawSubset( i );
-
+			for( int i = 0; i < xtex[ j ]->material().size(); ++i )
+			{ 
+				gl_lpD3ddev->SetFVF( xtex[ j ]->mesh()->GetFVF() );
+				gl_lpD3ddev->SetMaterial( &xtex[ j ]->material()[ i ] );
+				gl_lpD3ddev->SetTexture( 0, xtex[ j ]->tex()[ i ] );
+				xtex[ j ]->mesh()->DrawSubset( i );
+			}
 		}
+
+		
 
 		//============================================================
 
@@ -252,48 +263,18 @@ namespace direct_x_settings
 	{
 		init_render();
 
-		LPD3DXBUFFER material_buffer, effect_buffer, adjacency_buffer;
-		auto const r = D3DXLoadMeshFromX(
-			"saturn.x",
-			D3DXMESH_SYSTEMMEM,
-			gl_lpD3ddev,
-			NULL,
-			& material_buffer,
-			NULL,
-			& material_num,
-			& mesh
-			);
-
-		if( !( mesh->GetFVF() & D3DFVF_NORMAL ) )
+		if( auto const r = models::mdl_loader.load_model( "./saturn.x", gl_lpD3ddev ) )
 		{
-			std::cout << "foo" << std::endl;
-		}
-
-		D3DXMATERIAL * material = ( D3DXMATERIAL * )( material_buffer->GetBufferPointer() );
-
-		xtex.resize( material_num, NULL );
-
-		for( std::size_t i = 0; i < material_num; ++i )
-		{
-			if( material[ i ].pTextureFilename != NULL )
+			xtex.push_back( reinterpret_cast< models::model * >( r.get() ) );
+			try
 			{
-				LPDIRECT3DTEXTURE9 tex = nullptr;
-				if( S_OK != D3DXCreateTextureFromFile( gl_lpD3ddev, material[ i ].pTextureFilename, & tex ) )
-				{
-					std::cout << "hoge" << std::endl;
-				}
-
-				xtex[ i ] =  tex;
+				xtex[ 0 ]->name();
 			}
-			else
+			catch( std::exception & e )
 			{
-				std::cout << "null" << std::endl;
+				std::cout << e.what() << std::endl;
 			}
-			material[ i ].MatD3D.Ambient = material[ i ].MatD3D.Diffuse;
-			mtral.push_back( material[ i ].MatD3D );
 		}
-
-		material_buffer->Release();
 
 		create_texture( "sample.png" );
 		create_texture( "sample2.png" );
