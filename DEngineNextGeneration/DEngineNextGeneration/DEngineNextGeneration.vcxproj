@@ -90,7 +90,7 @@
   <ItemGroup>
     <ClInclude Include="audio.h" />
     <ClInclude Include="boost.h" />
-    <ClInclude Include="dicrectx.h" />
+    <ClInclude Include="directx.h" />
     <ClInclude Include="directx_class_def.h" />
     <ClInclude Include="directx_include.h" />
     <ClInclude Include="foo.h" />

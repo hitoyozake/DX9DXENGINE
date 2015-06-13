@@ -10,6 +10,7 @@
 #include "modelloader.h"
 #include "model.h"
 
+#include "directx.h"
 
 std::vector< D3DMATERIAL9 > mtral;
 std::vector< LPDIRECT3DTEXTURE9 > xtex_;
@@ -29,12 +30,12 @@ int WINAPI WinMain( HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, in
 	//表示するウィンドウの定義、登録、表示
 	if( !InitApp( hThisInst, nWinMode ) ) return ( FALSE );
 
-	// DirectX8の初期化
+	// DirectX9の初期化
 	hr = InitDirectX();
 	if( FAILED( hr ) ) return ( FALSE );
 
 	//初期化
-	initialize();
+	direct_x_settings::initialize();
 
 	direct_x_audio::audio aud( hWnd );
 	auto const test_wav = aud.load_wav( "test.wav" );

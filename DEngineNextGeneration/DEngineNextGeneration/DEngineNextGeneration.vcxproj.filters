@@ -71,7 +71,7 @@
     <ClInclude Include="model.h">
       <Filter>ソース ファイル\model</Filter>
     </ClInclude>
-    <ClInclude Include="dicrectx.h">
+    <ClInclude Include="directx.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
   </ItemGroup>

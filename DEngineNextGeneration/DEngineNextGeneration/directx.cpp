@@ -1,22 +1,16 @@
 #include "directx_class_def.h"
 #include "directx_include.h"
 #include "model.h"
+#include "directx.h"
 
 namespace direct_x_settings
 {
-	// 定数値(マクロ)
-	int const WINMODE = TRUE; // ウィンドウモードの指定（TRUE:ウィンドウモード／FALSE:フルスクリーン）
-	int const SCREEN_WIDTH = 640;	// ウィンドウの幅
-	int const SCREEN_HEIGHT = 480;	// ウィンドウの高さ
+	
+	std::vector< int > tex_index_list;
 
+	
 	//頂点フォーマット
 	int long FVF_TLVERTEX = ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 );
-
-	// プロトタイプ宣言
-	LRESULT CALLBACK WinProc( HWND, UINT, WPARAM, LPARAM );   // Windows関数
-	BOOL InitApp( HINSTANCE, int );                           // ユーザー関数
-	HRESULT InitDirectX( void );                                  // DirectX8初期化処理
-	void ReleaseD3D( void );                                  // DirectX8開放処理
 
 	// グローバル変数
 	HWND hWnd;                              // ウィンドウハンドル
@@ -29,8 +23,11 @@ namespace direct_x_settings
 	HCURSOR hCursor = LoadCursor( NULL, IDC_ARROW );
 	BOOL gl_app_active = FALSE;
 	BYTE gl_keyblard_table[ 256 ];	//キーボードの状態を格納
+	void clear_vertex_on_screen();
+	LRESULT CALLBACK WinProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 
-	void create_texture( std::string const & filename )
+	//ロードに成功した場合はグラフィックハンドルを返す(index)
+	int load_texture( std::string const & filename )
 	{
 		LPDIRECT3DTEXTURE9 tex;
 
@@ -52,27 +49,29 @@ namespace direct_x_settings
 			std::string const msg = filename + "をテクスチャとして読み込めませんでした";
 			MessageBox( hWnd, msg.c_str(), \
 				"ERROR", MB_OK );
-			return;
+			return -1;
 		}
-		else
+		
+		D3DSURFACE_DESC desc;
+
+		if( FAILED( tex->GetLevelDesc( 0, &desc ) ) )
 		{
-			D3DSURFACE_DESC desc;
-
-			if( FAILED( tex->GetLevelDesc( 0, &desc ) ) )
-			{
-				std::string const msg = filename + "のwidthとheightを読み込めませんでした";
-				MessageBox( hWnd, msg.c_str(), \
-					"ERROR", MB_OK );
-			}
-			auto const width = desc.Width;
-			auto const height = desc.Height;
-
-			data_struct::graphic_information graph;
-			graph.width_ = width;
-			graph.height_ = height;
-			graph.tex_ = tex;
-			data_struct::texture.push_back( graph );
+			std::string const msg = filename + "のwidthとheightを読み込めませんでした";
+			MessageBox( hWnd, msg.c_str(), \
+				"ERROR", MB_OK );
 		}
+		auto const width = desc.Width;
+		auto const height = desc.Height;
+
+		data_struct::graphic_information graph;
+		graph.width_ = width;
+		graph.height_ = height;
+		graph.tex_ = tex;
+		data_struct::texture.push_back( graph );
+
+		//return index
+		return data_struct::texture.size() - 1;
+
 	}
 
 	std::array< data_struct::tlvertex, 4 > init_vertex( \
@@ -137,7 +136,7 @@ namespace direct_x_settings
 	void draw_3d()
 	{
 		//3D
-		for( int j = 0; j < xtex.size(); ++j )
+		/*for( int j = 0; j < xtex.size(); ++j )
 		{
 			for( int i = 0; i < xtex[ j ]->material().size(); ++i )
 			{
@@ -146,7 +145,7 @@ namespace direct_x_settings
 				gl_lpD3ddev->SetTexture( 0, xtex[ j ]->tex()[ i ] );
 				xtex[ j ]->mesh()->DrawSubset( i );
 			}
-		}
+		}*/
 	}
 
 	BOOL update_frame()
@@ -166,10 +165,24 @@ namespace direct_x_settings
 		gl_lpD3ddev->SetFVF( FVF_TLVERTEX );
 		//頂点フォーマットを設定
 
+		static float x = 0.0f;
+
+		x += 1.0f;
+		for( auto const & index : tex_index_list )
+		{
+			position p;
+			p.x_ = 320.0f;
+			p.y_ += x;
+			draw_graph( p, data_struct::texture[ index ] );
+		}
+
 		for( auto const & i : data_struct::vertex )
 		{
 			send_vertex_to_back_buffer( i );
 		}
+
+		//描画のクリア
+		clear_vertex_on_screen();
 
 		gl_lpD3ddev->SetVertexShader( NULL );
 
@@ -250,20 +263,9 @@ namespace direct_x_settings
 		init_view();
 	}
 
-	void load_texture( std::string const & filename, std::pair< float, float > const & pos )
-	{
-		create_texture( filename );
 
-		//頂点データの
-		auto const table = init_vertex( pos, \
-			std::make_pair( pos.first + 100.0f, pos.second + 100.0f ) );
-	}
-
-	struct position
-	{
-		float x_ = 0.0f, y_ = 0.0f, z_ = 0.0f;
-	};
-
+	
+	//座標に画像を表示
 	void draw_graph( position pos, data_struct::graphic_information const & gi )
 	{
 		//頂点データの格納
@@ -275,8 +277,14 @@ namespace direct_x_settings
 
 		v.vertex_ = table;
 
-		v.tex_ = data_struct::texture[ 1 ].tex_;
+		v.tex_ = gi.tex_;
 		data_struct::vertex.push_back( v );
+	}
+
+	//描画用vectorのクリア
+	void clear_vertex_on_screen()
+	{
+		data_struct::vertex.clear();
 	}
 
 
@@ -284,7 +292,7 @@ namespace direct_x_settings
 	{
 		init_render();
 
-		if( auto const r = models::mdl_loader.load_model( "./saturn.x", gl_lpD3ddev ) )
+		/*if( auto const r = models::mdl_loader.load_model( "./saturn.x", gl_lpD3ddev ) )
 		{
 			xtex.push_back( reinterpret_cast< models::model * >( r.get() ) );
 			try
@@ -295,30 +303,18 @@ namespace direct_x_settings
 			{
 				std::cout << e.what() << std::endl;
 			}
-		}
+		}*/
 
-		create_texture( "sample.png" );
-		create_texture( "sample2.png" );
+		auto index = load_texture( "sample.png" );
 
-		//頂点データの格納
-		auto table = init_vertex( std::make_pair( 100.0f, 100.0f ), \
-			std::make_pair( 100.0f + data_struct::texture[ 1 ].width_, \
-			100.0f + data_struct::texture[ 1 ].height_ ) );
+		//test code
+		if( index != -1 )
+			tex_index_list.push_back( index );
 
-		data_struct::square v;
+		index = load_texture( "sample2.png" );
 
-		v.vertex_ = table;
-
-		v.tex_ = data_struct::texture[ 1 ].tex_;
-		data_struct::vertex.push_back( v );
-
-		//第２テクスチャ、座標登録
-		table = init_vertex( std::make_pair( 90.0f, 90.0f ), \
-			std::make_pair( 90.0f + +data_struct::texture[ 0 ].width_, \
-			90.0f + +data_struct::texture[ 0 ].height_ ) );
-		v.vertex_ = table;
-		v.tex_ = data_struct::texture[ 0 ].tex_;
-		data_struct::vertex.push_back( v );
+		if( index != -1 )
+			tex_index_list.push_back( index );
 
 	}
 
@@ -329,7 +325,7 @@ namespace direct_x_settings
 		// ウィンドウクラスを定義する
 		wc.cbSize = sizeof( WNDCLASSEX );                  // WNDCLASSEX構造体のサイズを設定
 		wc.style = NULL;                                 // ウィンドウスタイル（デフォルト）
-		wc.lpfnWndProc = WinProc;                        // ウィンドウ関数
+		wc.lpfnWndProc = direct_x_settings::WinProc;                        // ウィンドウ関数
 		wc.cbClsExtra = 0;                               // 通常は使わない（０にしておく）
 		wc.cbWndExtra = 0;                               // 通常は使わない（０にしておく）
 		wc.hInstance = hThisInst;                        // このインスタンスへのハンドル
