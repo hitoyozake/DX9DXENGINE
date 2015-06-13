@@ -51,9 +51,21 @@ namespace direct_x_settings
 	{
 		LPDIRECT3DTEXTURE9 tex;
 
-		if( FAILED( D3DXCreateTextureFromFile( gl_lpD3ddev, filename.c_str(), \
-			& tex ) ) )
+		//画像のパレット情報
+		PALETTEENTRY palette;
+
+		if( FAILED( D3DXCreateTextureFromFileEx( gl_lpD3ddev, filename.c_str(), 0, 0, 0, 0,
+			D3DFMT_A8R8G8B8,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_LINEAR,
+			D3DX_FILTER_LINEAR,
+			D3DCOLOR_ARGB( 255, 255, 0, 0 ), //ARGB 透明色が設定されたpngはキーカラーに関係なく透過できる
+			NULL,
+			NULL,
+			& tex
+			) ) )
 		{
+			
 			std::string const msg = filename + "をテクスチャとして読み込めませんでした";
 			MessageBox( hWnd, msg.c_str(), \
 				"ERROR", MB_OK );
@@ -139,6 +151,21 @@ namespace direct_x_settings
 	}
 
 
+	void draw_3d()
+	{
+		//3D
+		for( int j = 0; j < xtex.size(); ++j )
+		{
+			for( int i = 0; i < xtex[ j ]->material().size(); ++i )
+			{
+				gl_lpD3ddev->SetFVF( xtex[ j ]->mesh()->GetFVF() );
+				gl_lpD3ddev->SetMaterial( &xtex[ j ]->material()[ i ] );
+				gl_lpD3ddev->SetTexture( 0, xtex[ j ]->tex()[ i ] );
+				xtex[ j ]->mesh()->DrawSubset( i );
+			}
+		}
+	}
+
 	BOOL update_frame()
 	{
 		//現在のキー情報を取得
@@ -164,20 +191,9 @@ namespace direct_x_settings
 		gl_lpD3ddev->SetVertexShader( NULL );
 
 
+		draw_3d();
 
-		for( int j = 0; j < xtex.size(); ++j )
-		{
-			for( int i = 0; i < xtex[ j ]->material().size(); ++i )
-			{ 
-				gl_lpD3ddev->SetFVF( xtex[ j ]->mesh()->GetFVF() );
-				gl_lpD3ddev->SetMaterial( &xtex[ j ]->material()[ i ] );
-				gl_lpD3ddev->SetTexture( 0, xtex[ j ]->tex()[ i ] );
-				xtex[ j ]->mesh()->DrawSubset( i );
-			}
-		}
-
-		
-
+	
 		//============================================================
 
 		//::game_main::game_main();
@@ -230,21 +246,25 @@ namespace direct_x_settings
 	//描画の初期化を行う
 	void init_render()
 	{
-
 		//gl_lpD3ddev->SetRenderState(D3DRS_ALPHAREF, 0x00000001);
 		// アルファ・ブレンディングを行う
 		gl_lpD3ddev->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
 		// 透過処理を行う
 		gl_lpD3ddev->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
-		//gl_lpD3ddev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVDESTALPHA);
 		gl_lpD3ddev->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
 		gl_lpD3ddev->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZENABLE, D3DZB_TRUE );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
 
-		init_view( );
+		//テクスチャの設定
+		//透明s度の設定
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 
+		init_view( );
 	}
 
 	void load_texture( std::string const & filename, std::pair< float, float > const & pos )
@@ -254,8 +274,6 @@ namespace direct_x_settings
 		//頂点データの
 		auto const table = init_vertex( pos, \
 			std::make_pair( pos.first + 100.0f, pos.second + 100.0f ) );
-
-
 	}
 
 
