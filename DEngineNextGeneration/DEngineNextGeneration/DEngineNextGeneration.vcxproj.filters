@@ -16,6 +16,9 @@
     <Filter Include="ソース ファイル\model">
       <UniqueIdentifier>{e3abc0e7-9922-40d7-bc98-428039befe15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\directX">
+      <UniqueIdentifier>{c7c531b9-09db-49ce-a8c8-236444510998}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>ソース ファイル\model</Filter>
+    </ClCompile>
+    <ClCompile Include="directx.cpp">
+      <Filter>ソース ファイル\directX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="model.h">
       <Filter>ソース ファイル\model</Filter>
+    </ClInclude>
+    <ClInclude Include="dicrectx.h">
+      <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
