@@ -2,6 +2,7 @@
 #include <d3dx9.h>
 #include <d3d9.h>
 #include <d3dx9tex.h>
+#include <boost/format.hpp>
 
 #include "game_main.h"
 #include "standard_include.h"
@@ -9,6 +10,7 @@
 #include "audio.h"
 #include "modelloader.h"
 #include "model.h"
+#include "fps.h"
 
 #include "directx.h"
 
@@ -41,10 +43,16 @@ int WINAPI WinMain( HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, in
 	auto const test_wav = aud.load_wav( "test.wav" );
 
 	bool test = false;
+
+	debug::time_manager time_manager;
+	static unsigned int counter = 0;
+
 	// メッセージループ
 	// Windowsは「WM_QUIT」メッセージを受けると偽(0)を戻す
-	while( true ) {
-
+	while( true ) 
+	{
+		auto const fpsstr = boost::format( "%0.3f fps" ) % time_manager.get_fps();
+		
 		//メッセージがあるかどうか
 		if( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) )
 		{
@@ -55,15 +63,13 @@ int WINAPI WinMain( HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, in
 		}
 		else if( gl_app_active )
 		{
-			if( test == false )
-			{
-				//aud.play_sound( test_wav.buf_ );
-				test = true;
-			}
-
+			//aud.play_sound( test_wav.buf_ );	
+			if( ++counter % 10 == 0 )
+				SetWindowText( hWnd, static_cast< LPCSTR >( fpsstr.str().c_str() ) );
 			//ゲームのメイン処理
 			if( FAILED( update_frame() ) )
 				break;
+			time_manager.wait_auto();
 			Sleep( 1 );
 		}
 		else

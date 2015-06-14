@@ -2,6 +2,7 @@
 #include "directx_include.h"
 #include "model.h"
 #include "directx.h"
+#include "mathdef.h"
 
 namespace direct_x_settings
 {
@@ -30,9 +31,6 @@ namespace direct_x_settings
 	int load_texture( std::string const & filename )
 	{
 		LPDIRECT3DTEXTURE9 tex;
-
-		//画像のパレット情報
-		PALETTEENTRY palette;
 
 		if( FAILED( D3DXCreateTextureFromFileEx( gl_lpD3ddev, filename.c_str(), 0, 0, 0, 0,
 			D3DFMT_A8R8G8B8,
@@ -168,12 +166,15 @@ namespace direct_x_settings
 		static float x = 0.0f;
 
 		x += 1.0f;
+		int c = 0;
 		for( auto const & index : tex_index_list )
 		{
 			position p;
 			p.x_ = 320.0f;
 			p.y_ += x;
-			draw_graph( p, data_struct::texture[ index ] );
+			//draw_graph( p, data_struct::texture[ index ] );
+
+			graphic_api::draw_graph( index, 320 + 150 * c++, x, 90.0 );
 		}
 
 		for( auto const & i : data_struct::vertex )
@@ -186,10 +187,7 @@ namespace direct_x_settings
 
 		gl_lpD3ddev->SetVertexShader( NULL );
 
-
 		draw_3d();
-
-
 		//============================================================
 
 		//::game_main::game_main();
@@ -263,22 +261,118 @@ namespace direct_x_settings
 		init_view();
 	}
 
+	void rotate_graph( double const radian, data_struct::square & sq )
+	{
+		D3DXMATRIX pos_matrix, rotate_matrix;
 
+		//行列の初期化(単位行列の作成)
+		D3DXMatrixIdentity( std::addressof( pos_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+		D3DXMatrixIdentity( std::addressof( rotate_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+
+		//回転行列に角度を設定
+		D3DXMatrixRotationZ( std::addressof( rotate_matrix ), static_cast< float >( radian ) );
+
+		for( auto & v : sq.vertex_ )
+		{
+			//save current vertex position
+			D3DXMatrixTranslation( std::addressof( pos_matrix ), v.x_, v.y_, v.z_ );
+			
+			//calucrate
+			pos_matrix *= rotate_matrix;
+
+			v.x_ = pos_matrix._41;
+			v.y_ = pos_matrix._42;
+			v.z_ = pos_matrix._43;
+		}
+	}
+
+	void zoom_graph( double const x_scale, double const y_scale, data_struct::square & sq );
 	
+	void zoom_graph( double const x_scale, double const y_scale, data_struct::square & sq )
+	{
+		D3DXMATRIX pos_matrix, zoom_matrix;
+
+		//行列の初期化(単位行列の作成)
+		D3DXMatrixIdentity( std::addressof( pos_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+		D3DXMatrixIdentity( std::addressof( zoom_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+
+		//回転行列にスケールを設定		
+		D3DXMatrixScaling( std::addressof( zoom_matrix ), static_cast< float >( x_scale ), static_cast< float >( y_scale ), 1.0f );
+		//下記に等しい
+		//zoom_matrix._11 = static_cast< float >( x_scale );
+		//zoom_matrix._22 = static_cast< float >( y_scale );
+
+
+		for( auto & v : sq.vertex_ )
+		{
+			//save current vertex position
+			D3DXMatrixTranslation( std::addressof( pos_matrix ), v.x_, v.y_, v.z_ );
+
+			//calucrate
+			pos_matrix *= zoom_matrix;
+
+			//演算結果をポリゴンのxyz座標に格納
+			v.x_ = pos_matrix._41;
+			v.y_ = pos_matrix._42;
+			v.z_ = pos_matrix._43;
+		}
+	}
+
+
+
+
+	void zoom_graph( double const scale, data_struct::square & sq )
+	{
+		zoom_graph( scale, scale, std::ref( sq ) );
+	}
+	
+	void move_graph( position const & pos, data_struct::square & sq )
+	{
+		D3DXMATRIX pos_matrix, move_matrix;
+
+		//行列の初期化(単位行列の作成)
+		D3DXMatrixIdentity( std::addressof( pos_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+		D3DXMatrixIdentity( std::addressof( move_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
+
+		move_matrix._41 = pos.x_;
+		move_matrix._42 = pos.y_;
+		move_matrix._43 = pos.z_;
+
+
+		for( auto & v : sq.vertex_ )
+		{
+			//save current vertex position
+			D3DXMatrixTranslation( std::addressof( pos_matrix ), v.x_, v.y_, v.z_ );
+
+			pos_matrix *= move_matrix; //移動量の加算
+
+			v.x_ = pos_matrix._41;
+			v.y_ = pos_matrix._42;
+			v.z_ = pos_matrix._43;
+		}
+	}
+
 	//座標に画像を表示
-	void draw_graph( position pos, data_struct::graphic_information const & gi )
+	void draw_graph( position pos, double const angle, double const scale, data_struct::graphic_information const & gi )
 	{
 		//頂点データの格納
-		auto table = init_vertex( std::make_pair( pos.x_, pos.y_ ), \
-			std::make_pair( pos.x_ + gi.width_, \
-			pos.y_ + gi.height_ ) );
+		auto table = init_vertex( std::make_pair( 0, 0 ), \
+			std::make_pair( gi.width_, \
+			 gi.height_ ) );
 
-		data_struct::square v;
+		data_struct::square tmp( table, gi.tex_ );
 
-		v.vertex_ = table;
 
-		v.tex_ = gi.tex_;
-		data_struct::vertex.push_back( v );
+		//拡縮
+		zoom_graph( scale, std::ref( tmp ) );
+
+		//回転
+		rotate_graph( mathdef::radian * angle, std::ref( tmp ) );
+
+		//移動
+		move_graph( pos, tmp );
+
+		data_struct::vertex.push_back( tmp );
 	}
 
 	//描画用vectorのクリア
@@ -305,16 +399,20 @@ namespace direct_x_settings
 			}
 		}*/
 
-		auto index = load_texture( "sample.png" );
+		auto g_handle = graphic_api::load_graph( "sample.png" );
 
 		//test code
-		if( index != -1 )
-			tex_index_list.push_back( index );
+		if( g_handle != -1 )
+			tex_index_list.push_back( g_handle );
 
-		index = load_texture( "sample2.png" );
+		g_handle = graphic_api::load_graph( "sample2.png" );
 
-		if( index != -1 )
-			tex_index_list.push_back( index );
+		if( g_handle != -1 )
+			tex_index_list.push_back( g_handle );
+
+		//複数表示テスト
+		if( g_handle != -1 )
+			tex_index_list.push_back( g_handle );
 
 	}
 

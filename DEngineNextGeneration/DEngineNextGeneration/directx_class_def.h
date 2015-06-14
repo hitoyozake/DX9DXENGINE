@@ -31,6 +31,11 @@ namespace direct_x_settings
 		{
 			std::array< tlvertex, 4 > vertex_;
 			LPDIRECT3DTEXTURE9 tex_;	//LPDIRECT3DTEXTUREŽ©‘Ì‚ªƒ|ƒCƒ“ƒ^
+
+			square(std::array< tlvertex, 4 > const & vertex, LPDIRECT3DTEXTURE9 tex) : vertex_(vertex), tex_( tex )
+			{
+			}
+
 		};
 
 		extern std::vector< square > vertex;

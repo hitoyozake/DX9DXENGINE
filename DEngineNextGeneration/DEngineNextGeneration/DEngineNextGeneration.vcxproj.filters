@@ -19,6 +19,15 @@
     <Filter Include="ソース ファイル\directX">
       <UniqueIdentifier>{c7c531b9-09db-49ce-a8c8-236444510998}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\debug">
+      <UniqueIdentifier>{30861f5a-fbc8-47e9-80a9-6c605320e64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\directX\graphicAPI">
+      <UniqueIdentifier>{f70ecc6b-5634-490f-bd80-16c7c38eed9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\mathdef">
+      <UniqueIdentifier>{023af8b0-7a7c-42b7-8d2b-bcca1eecbf87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="directx.cpp">
       <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="fps.cpp">
+      <Filter>ソース ファイル\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="graphic_api.cpp">
+      <Filter>ソース ファイル\directX\graphicAPI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="directx.h">
       <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="fps.h">
+      <Filter>ソース ファイル\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="graphic_api.h">
+      <Filter>ソース ファイル\directX\graphicAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="mathdef.h">
+      <Filter>ソース ファイル\mathdef</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

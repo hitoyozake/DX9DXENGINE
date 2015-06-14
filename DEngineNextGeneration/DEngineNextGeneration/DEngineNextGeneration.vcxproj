@@ -80,9 +80,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="fps.cpp" />
     <ClCompile Include="directx.cpp" />
     <ClCompile Include="directx_class_define.cpp" />
     <ClCompile Include="foo.cpp" />
+    <ClCompile Include="graphic_api.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="modelloader.cpp" />
@@ -94,7 +96,10 @@
     <ClInclude Include="directx_class_def.h" />
     <ClInclude Include="directx_include.h" />
     <ClInclude Include="foo.h" />
+    <ClInclude Include="fps.h" />
     <ClInclude Include="game_main.h" />
+    <ClInclude Include="graphic_api.h" />
+    <ClInclude Include="mathdef.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modelloader.h" />
     <ClInclude Include="standard_include.h" />

@@ -1,6 +1,7 @@
 #include "directx_class_def.h"
 #include "model.h"
 #include "standard_include.h"
+#include "graphic_api.h"//後で消す
 
 #pragma once
 
@@ -25,7 +26,8 @@ namespace direct_x_settings
 	int load_texture( std::string const & filename );
 	BOOL update_frame();
 	void initialize();
-	void draw_graph( position pos, data_struct::graphic_information const & gi );
+	void draw_graph( position pos, double angle, double const scale, data_struct::graphic_information const & gi );
+	void rotate_graph( double const radian, data_struct::square & sq );
 
 	// 定数値(マクロ)
 	int const WINMODE = TRUE; // ウィンドウモードの指定（TRUE:ウィンドウモード／FALSE:フルスクリーン）
