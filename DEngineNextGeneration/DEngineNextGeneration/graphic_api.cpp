@@ -12,7 +12,7 @@ namespace graphic_api
 		pos.x_ = x;
 		pos.y_ = y;
 
-		direct_x_settings::draw_graph( pos, 0.0, 1.0,
+		direct_x_settings::draw_graph( pos, 0.0, 1.0, 255,
 			direct_x_settings::data_struct::texture[ 
 			graph_handle
 			] );
@@ -25,7 +25,20 @@ namespace graphic_api
 		pos.x_ = x;
 		pos.y_ = y;
 
-		direct_x_settings::draw_graph( pos, angle, scale + 1,
+		direct_x_settings::draw_graph( pos, angle, scale + 1, 255,
+			direct_x_settings::data_struct::texture[
+				graph_handle
+			] );
+	}
+
+	void draw_graph_alpha( int graph_handle, double x, double y, int const alpha, double rotation_radian, double scale )
+	{
+		direct_x_settings::position pos;
+
+		pos.x_ = x;
+		pos.y_ = y;
+
+		direct_x_settings::draw_graph( pos, 0.0, 1.0, alpha,
 			direct_x_settings::data_struct::texture[
 				graph_handle
 			] );

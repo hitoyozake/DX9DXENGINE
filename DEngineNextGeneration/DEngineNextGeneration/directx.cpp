@@ -174,7 +174,7 @@ namespace direct_x_settings
 			p.y_ += x;
 			//draw_graph( p, data_struct::texture[ index ] );
 
-			graphic_api::draw_graph( index, 320 + 150 * c++, x, 90.0 );
+			graphic_api::draw_graph_alpha( index, 320 + 30 * c++, x, 128, 90.0 );
 		}
 
 		for( auto const & i : data_struct::vertex )
@@ -247,6 +247,8 @@ namespace direct_x_settings
 		gl_lpD3ddev->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
 		gl_lpD3ddev->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
+		//setting 
+
 		gl_lpD3ddev->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZENABLE, D3DZB_TRUE );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
@@ -255,8 +257,10 @@ namespace direct_x_settings
 		//透明s度の設定
 		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
 		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE ); //D3DTOP_MODULATE = alpha乗算 arg1 * arg2
 		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1 );
+		//gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1 ); //D3DTOP_SELECTARG1 = arg1
+		gl_lpD3ddev->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 
 		init_view();
 	}
@@ -353,12 +357,13 @@ namespace direct_x_settings
 	}
 
 	//座標に画像を表示
-	void draw_graph( position pos, double const angle, double const scale, data_struct::graphic_information const & gi )
+	void draw_graph( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
 	{
 		//頂点データの格納
 		auto table = init_vertex( std::make_pair( 0, 0 ), \
 			std::make_pair( gi.width_, \
-			 gi.height_ ) );
+			 gi.height_ ), alpha );
+
 
 		data_struct::square tmp( table, gi.tex_ );
 
