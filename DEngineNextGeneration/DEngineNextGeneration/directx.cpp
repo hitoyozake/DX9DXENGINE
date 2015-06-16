@@ -72,6 +72,56 @@ namespace direct_x_settings
 
 	}
 
+	//vectorじゃなくて２次元配列で返したほうが良いかな?
+	std::vector< std::array< data_struct::tlvertex, 4 > > create_devided_vertex( std::pair< float, float > const & pos1, std::pair< float, float > const & pos2, int const alpha = 255 )
+	{
+		int w_div = 2, h_div = 2;
+		std::vector< std::array< data_struct::tlvertex, 4 > > f;
+
+		for( int i = 0; i < w_div; ++i )
+		{
+			for( int j = 0; j < h_div; ++j )
+			{
+				std::array< data_struct::tlvertex, 4 > vertex;
+
+				vertex[ 0 ].x_ = pos1.first;
+				vertex[ 0 ].y_ = pos1.second;
+				vertex[ 0 ].z_ = 0.0;
+				vertex[ 0 ].rhw_ = 1.0;	//2Dを扱う時の色
+				vertex[ 0 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
+				vertex[ 0 ].tu_ = static_cast< float >( i ) / w_div;	//テクスチャのx座標
+				vertex[ 0 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
+
+				vertex[ 1 ].x_ = pos2.first;
+				vertex[ 1 ].y_ = pos1.second;
+				vertex[ 1 ].z_ = 0.0;
+				vertex[ 1 ].rhw_ = 1.0;	//2Dを扱う時の色
+				vertex[ 1 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
+				vertex[ 1 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
+				vertex[ 1 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
+
+				vertex[ 2 ].x_ = pos2.first;
+				vertex[ 2 ].y_ = pos2.second;
+				vertex[ 2 ].z_ = 0.0;
+				vertex[ 2 ].rhw_ = 1.0;	//2Dを扱う時の色
+				vertex[ 2 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
+				vertex[ 2 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
+				vertex[ 2 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標
+
+				vertex[ 3 ].x_ = pos1.first;
+				vertex[ 3 ].y_ = pos2.second;
+				vertex[ 3 ].z_ = 0.0;
+				vertex[ 3 ].rhw_ = 1.0;	//2Dを扱う時の色
+				vertex[ 3 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
+				vertex[ 3 ].tu_ = 0.0;	//テクスチャのx座標
+				vertex[ 3 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標	
+			}
+		}
+
+		return std::vector< std::array< data_struct::tlvertex, 4 > >();
+	}
+
+
 	std::array< data_struct::tlvertex, 4 > init_vertex( \
 		std::pair< float, float > const & pos1, std::pair< float, float > const & pos2, int const alpha = 255 )
 	{
@@ -366,7 +416,6 @@ namespace direct_x_settings
 
 
 		data_struct::square tmp( table, gi.tex_ );
-
 
 		//拡縮
 		zoom_graph( scale, std::ref( tmp ) );
