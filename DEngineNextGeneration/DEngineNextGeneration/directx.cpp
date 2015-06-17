@@ -84,7 +84,7 @@ namespace direct_x_settings
 				std::array< data_struct::tlvertex, 4 > vertex;
 
 				vertex[ 0 ].x_ = pos1.first;
-				vertex[ 0 ].y_ = pos1.second;
+				vertex[ 0 ].y_ = pos1.second - pos2.first / 2;
 				vertex[ 0 ].z_ = 0.0;
 				vertex[ 0 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 0 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
@@ -92,23 +92,23 @@ namespace direct_x_settings
 				vertex[ 0 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
 				vertex[ 1 ].x_ = pos2.first / w_div;
-				vertex[ 1 ].y_ = pos1.second;
+				vertex[ 1 ].y_ = pos1.second - pos2.second / 2;
 				vertex[ 1 ].z_ = 0.0;
 				vertex[ 1 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 1 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 				vertex[ 1 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
 				vertex[ 1 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
-				vertex[ 2 ].x_ = pos2.first / w_div;
-				vertex[ 2 ].y_ = pos2.second / h_div;
+				vertex[ 2 ].x_ = pos2.first / w_div - pos2.first;
+				vertex[ 2 ].y_ = pos2.second / h_div - pos2.second / 2 ;
 				vertex[ 2 ].z_ = 0.0;
 				vertex[ 2 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 2 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 				vertex[ 2 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
 				vertex[ 2 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標
 
-				vertex[ 3 ].x_ = pos1.first;
-				vertex[ 3 ].y_ = pos2.second / h_div;
+				vertex[ 3 ].x_ = pos1.first - pos2.first;
+				vertex[ 3 ].y_ = pos2.second / h_div - pos2.second / 2;
 				vertex[ 3 ].z_ = 0.0;
 				vertex[ 3 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 3 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
@@ -131,32 +131,32 @@ namespace direct_x_settings
 		//3-2
 		std::array< data_struct::tlvertex, 4 > vertex;
 
-		vertex[ 0 ].x_ = pos1.first;
-		vertex[ 0 ].y_ = pos1.second;
+		vertex[ 0 ].x_ = pos1.first - pos2.first / 2;
+		vertex[ 0 ].y_ = pos1.second - pos2.second / 2;
 		vertex[ 0 ].z_ = 0.0;
 		vertex[ 0 ].rhw_ = 1.0;	//2Dを扱う時の色
 		vertex[ 0 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 		vertex[ 0 ].tu_ = 0.0;	//テクスチャのx座標
 		vertex[ 0 ].tv_ = 0.0; //テクスチャのy座標
 
-		vertex[ 1 ].x_ = pos2.first;
-		vertex[ 1 ].y_ = pos1.second;
+		vertex[ 1 ].x_ = pos2.first - pos2.first / 2;
+		vertex[ 1 ].y_ = pos1.second - pos2.second / 2;
 		vertex[ 1 ].z_ = 0.0;
 		vertex[ 1 ].rhw_ = 1.0;	//2Dを扱う時の色
 		vertex[ 1 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 		vertex[ 1 ].tu_ = 1.0;	//テクスチャのx座標
 		vertex[ 1 ].tv_ = 0.0; //テクスチャのy座標
 
-		vertex[ 2 ].x_ = pos2.first;
-		vertex[ 2 ].y_ = pos2.second;
+		vertex[ 2 ].x_ = pos2.first - pos2.first / 2;
+		vertex[ 2 ].y_ = pos2.second - pos2.second / 2;
 		vertex[ 2 ].z_ = 0.0;
 		vertex[ 2 ].rhw_ = 1.0;	//2Dを扱う時の色
 		vertex[ 2 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 		vertex[ 2 ].tu_ = 1.0;	//テクスチャのx座標
 		vertex[ 2 ].tv_ = 1.0; //テクスチャのy座標
 
-		vertex[ 3 ].x_ = pos1.first;
-		vertex[ 3 ].y_ = pos2.second;
+		vertex[ 3 ].x_ = pos1.first - pos2.first / 2;
+		vertex[ 3 ].y_ = pos2.second - pos2.second / 2;
 		vertex[ 3 ].z_ = 0.0;
 		vertex[ 3 ].rhw_ = 1.0;	//2Dを扱う時の色
 		vertex[ 3 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
