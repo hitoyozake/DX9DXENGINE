@@ -73,9 +73,8 @@ namespace direct_x_settings
 	}
 
 	//vectorじゃなくて２次元配列で返したほうが良いかな?
-	std::vector< std::array< data_struct::tlvertex, 4 > > create_devided_vertex( std::pair< float, float > const & pos1, std::pair< float, float > const & pos2, int const alpha = 255 )
+	std::vector< std::array< data_struct::tlvertex, 4 > > create_devided_vertex( std::pair< float, float > const & pos1, std::pair< float, float > const & pos2, int const w_div = 1, int const h_div = 1, int const alpha = 255 )
 	{
-		int w_div = 2, h_div = 2;
 		std::vector< std::array< data_struct::tlvertex, 4 > > f;
 
 		for( int i = 0; i < w_div; ++i )
@@ -92,7 +91,7 @@ namespace direct_x_settings
 				vertex[ 0 ].tu_ = static_cast< float >( i ) / w_div;	//テクスチャのx座標
 				vertex[ 0 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
-				vertex[ 1 ].x_ = pos2.first;
+				vertex[ 1 ].x_ = pos2.first / w_div;
 				vertex[ 1 ].y_ = pos1.second;
 				vertex[ 1 ].z_ = 0.0;
 				vertex[ 1 ].rhw_ = 1.0;	//2Dを扱う時の色
@@ -100,8 +99,8 @@ namespace direct_x_settings
 				vertex[ 1 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
 				vertex[ 1 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
-				vertex[ 2 ].x_ = pos2.first;
-				vertex[ 2 ].y_ = pos2.second;
+				vertex[ 2 ].x_ = pos2.first / w_div;
+				vertex[ 2 ].y_ = pos2.second / h_div;
 				vertex[ 2 ].z_ = 0.0;
 				vertex[ 2 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 2 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
@@ -109,16 +108,18 @@ namespace direct_x_settings
 				vertex[ 2 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標
 
 				vertex[ 3 ].x_ = pos1.first;
-				vertex[ 3 ].y_ = pos2.second;
+				vertex[ 3 ].y_ = pos2.second / h_div;
 				vertex[ 3 ].z_ = 0.0;
 				vertex[ 3 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 3 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
-				vertex[ 3 ].tu_ = 0.0;	//テクスチャのx座標
+				vertex[ 3 ].tu_ = static_cast< float >( i ) / w_div;	//テクスチャのx座標
 				vertex[ 3 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標	
+				
+				f.push_back( vertex );
 			}
 		}
 
-		return std::vector< std::array< data_struct::tlvertex, 4 > >();
+		return f;
 	}
 
 
@@ -407,7 +408,7 @@ namespace direct_x_settings
 	}
 
 	//座標に画像を表示
-	void draw_graph( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
+	void draw_graph2( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
 	{
 		//頂点データの格納
 		auto table = init_vertex( std::make_pair( 0, 0 ), \
@@ -427,6 +428,41 @@ namespace direct_x_settings
 		move_graph( pos, tmp );
 
 		data_struct::vertex.push_back( tmp );
+	}
+
+	//座標に画像を表示2
+	void draw_graph( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
+	{
+		//頂点データの格納
+		auto tables = create_devided_vertex( std::make_pair( 0, 0 ), \
+			std::make_pair( gi.width_, \
+			gi.height_ ), 1, 1, alpha );
+
+		static double ang = 4;
+		ang += 4;
+
+		for( auto table : tables )
+		{
+			data_struct::square tmp( table, gi.tex_ );
+			tmp.vertex_div_h = 1;
+			tmp.vertex_div_w = 1;
+			//拡縮
+			zoom_graph( scale, std::ref( tmp ) );
+
+			//回転
+			rotate_graph( mathdef::radian * ( ang + angle ), std::ref( tmp ) );
+
+			position npos;
+
+			npos.x_ = pos.x_ + tmp.vertex_[ 0 ].tu_ * tmp.vertex_[ 2 ].x_ * tmp.vertex_div_w;
+			npos.y_ = pos.y_ + tmp.vertex_[ 0 ].tv_ * tmp.vertex_[ 2 ].y_ * tmp.vertex_div_h;
+
+
+			//移動
+			move_graph( npos, tmp );
+
+			data_struct::vertex.push_back( tmp );
+		}
 	}
 
 	//描画用vectorのクリア
@@ -465,8 +501,8 @@ namespace direct_x_settings
 			tex_index_list.push_back( g_handle );
 
 		//複数表示テスト
-		if( g_handle != -1 )
-			tex_index_list.push_back( g_handle );
+		/*if( g_handle != -1 )
+			tex_index_list.push_back( g_handle );*/
 
 	}
 

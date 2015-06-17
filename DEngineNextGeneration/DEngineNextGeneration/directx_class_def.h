@@ -31,6 +31,8 @@ namespace direct_x_settings
 		{
 			std::array< tlvertex, 4 > vertex_;
 			LPDIRECT3DTEXTURE9 tex_;	//LPDIRECT3DTEXTUREŽ©‘Ì‚ªƒ|ƒCƒ“ƒ^
+			int vertex_div_w = 1;
+			int vertex_div_h = 1;
 
 			square(std::array< tlvertex, 4 > const & vertex, LPDIRECT3DTEXTURE9 tex) : vertex_(vertex), tex_( tex )
 			{
