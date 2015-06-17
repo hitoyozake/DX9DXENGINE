@@ -26,6 +26,8 @@ namespace direct_x_settings
 	BYTE gl_keyblard_table[ 256 ];	//キーボードの状態を格納
 	void clear_vertex_on_screen();
 	LRESULT CALLBACK WinProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
+	void move_graph( position const & pos, data_struct::square & sq );
+
 
 	//ロードに成功した場合はグラフィックハンドルを返す(index)
 	int load_texture( std::string const & filename )
@@ -83,8 +85,8 @@ namespace direct_x_settings
 			{
 				std::array< data_struct::tlvertex, 4 > vertex;
 
-				vertex[ 0 ].x_ = pos1.first;
-				vertex[ 0 ].y_ = pos1.second - pos2.first / 2;
+				vertex[ 0 ].x_ = pos1.first / w_div;
+				vertex[ 0 ].y_ = pos1.second / h_div;
 				vertex[ 0 ].z_ = 0.0;
 				vertex[ 0 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 0 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
@@ -92,23 +94,23 @@ namespace direct_x_settings
 				vertex[ 0 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
 				vertex[ 1 ].x_ = pos2.first / w_div;
-				vertex[ 1 ].y_ = pos1.second - pos2.second / 2;
+				vertex[ 1 ].y_ = pos1.second / h_div;
 				vertex[ 1 ].z_ = 0.0;
 				vertex[ 1 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 1 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 				vertex[ 1 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
 				vertex[ 1 ].tv_ = static_cast< float >( j ) / h_div; //テクスチャのy座標
 
-				vertex[ 2 ].x_ = pos2.first / w_div - pos2.first;
-				vertex[ 2 ].y_ = pos2.second / h_div - pos2.second / 2 ;
+				vertex[ 2 ].x_ = pos2.first / w_div;
+				vertex[ 2 ].y_ = pos2.second / h_div;
 				vertex[ 2 ].z_ = 0.0;
 				vertex[ 2 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 2 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
 				vertex[ 2 ].tu_ = static_cast< float >( i + 1 ) / w_div;	//テクスチャのx座標
 				vertex[ 2 ].tv_ = static_cast< float >( j + 1 ) / h_div; //テクスチャのy座標
 
-				vertex[ 3 ].x_ = pos1.first - pos2.first;
-				vertex[ 3 ].y_ = pos2.second / h_div - pos2.second / 2;
+				vertex[ 3 ].x_ = pos1.first / w_div;
+				vertex[ 3 ].y_ = pos2.second / h_div;
 				vertex[ 3 ].z_ = 0.0;
 				vertex[ 3 ].rhw_ = 1.0;	//2Dを扱う時の色
 				vertex[ 3 ].color_ = D3DCOLOR_RGBA( 255, 255, 255, alpha );	//頂点の色
@@ -216,7 +218,7 @@ namespace direct_x_settings
 
 		static float x = 0.0f;
 
-		x += 1.0f;
+		//x += 1.0f;
 		int c = 0;
 		for( auto const & index : tex_index_list )
 		{
@@ -225,7 +227,7 @@ namespace direct_x_settings
 			p.y_ += x;
 			//draw_graph( p, data_struct::texture[ index ] );
 
-			graphic_api::draw_graph_alpha( index, 320 + 30 * c++, x, 128, 90.0 );
+			graphic_api::draw_graph_alpha( index, 320 + 30 * c, x, 128, 90.0 );
 		}
 
 		for( auto const & i : data_struct::vertex )
@@ -320,6 +322,15 @@ namespace direct_x_settings
 	{
 		D3DXMATRIX pos_matrix, rotate_matrix;
 
+		auto const x = ( sq.vertex_[ 2 ].x_ - sq.vertex_[ 0 ].x_ ) / 2.0f - sq.vertex_[ 0 ].x_;
+		auto const y = ( sq.vertex_[ 2 ].y_ - sq.vertex_[ 0 ].y_ ) / 2.0f - sq.vertex_[ 0 ].y_;
+
+		position pos;
+		pos.x_ = - x; pos.y_ = - y;
+
+		move_graph( pos, sq );
+
+
 		//行列の初期化(単位行列の作成)
 		D3DXMatrixIdentity( std::addressof( pos_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
 		D3DXMatrixIdentity( std::addressof( rotate_matrix ) );//後でGetIdentityを作ってreturnで取れるようにする
@@ -339,6 +350,9 @@ namespace direct_x_settings
 			v.y_ = pos_matrix._42;
 			v.z_ = pos_matrix._43;
 		}
+
+		pos.x_ = x; pos.y_ = y;
+		move_graph( pos, sq );
 	}
 
 	void zoom_graph( double const x_scale, double const y_scale, data_struct::square & sq );
