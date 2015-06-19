@@ -450,27 +450,26 @@ namespace direct_x_settings
 		//’¸“_ƒf[ƒ^‚ÌŠi”[
 		auto tables = create_devided_vertex( std::make_pair( 0, 0 ), \
 			std::make_pair( gi.width_, \
-			gi.height_ ), 1, 1, alpha );
+			gi.height_ ), 2, 2, alpha );
 
 		static double ang = 4;
-		ang += 4;
+		ang += 0.1;
 
 		for( auto table : tables )
 		{
 			data_struct::square tmp( table, gi.tex_ );
-			tmp.vertex_div_h = 1;
-			tmp.vertex_div_w = 1;
+			tmp.vertex_div_h = 2;
+			tmp.vertex_div_w = 2;
 			//Šgk
 			zoom_graph( scale, std::ref( tmp ) );
-
-			//‰ñ“]
-			rotate_graph( mathdef::radian * ( ang + angle ), std::ref( tmp ) );
 
 			position npos;
 
 			npos.x_ = pos.x_ + tmp.vertex_[ 0 ].tu_ * tmp.vertex_[ 2 ].x_ * tmp.vertex_div_w;
 			npos.y_ = pos.y_ + tmp.vertex_[ 0 ].tv_ * tmp.vertex_[ 2 ].y_ * tmp.vertex_div_h;
 
+			//‰ñ“]
+			rotate_graph( mathdef::radian * ( ang + angle ), std::ref( tmp ) );
 
 			//ˆÚ“®
 			move_graph( npos, tmp );
