@@ -95,6 +95,7 @@
     <ClInclude Include="directx.h" />
     <ClInclude Include="directx_class_def.h" />
     <ClInclude Include="directx_include.h" />
+    <ClInclude Include="directx_private.h" />
     <ClInclude Include="foo.h" />
     <ClInclude Include="fps.h" />
     <ClInclude Include="game_main.h" />

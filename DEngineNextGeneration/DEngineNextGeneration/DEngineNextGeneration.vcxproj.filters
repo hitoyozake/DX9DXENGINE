@@ -98,5 +98,8 @@
     <ClInclude Include="mathdef.h">
       <Filter>ソース ファイル\mathdef</Filter>
     </ClInclude>
+    <ClInclude Include="directx_private.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

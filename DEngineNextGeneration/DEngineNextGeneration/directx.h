@@ -20,15 +20,13 @@ namespace direct_x_settings
 	//prototype decleraion
 	LRESULT CALLBACK WinProc( HWND, UINT, WPARAM, LPARAM );   // Windows関数
 	BOOL InitApp( HINSTANCE, int );                           // ユーザー関数
-	HRESULT InitDirectX( void );                                  // DirectX8初期化処理
-	void ReleaseD3D( void );                                  // DirectX8開放処理
-	void clear_vertex_on_screen();
-	int load_texture( std::string const & filename );
-	BOOL update_frame();
+	HRESULT InitDirectX( void );                                  // DirectX9初期化処理
+	void ReleaseD3D( void );                                  // DirectX9開放処理
 	void initialize();
-	void draw_graph( position pos, double angle, double const scale, int const alpha, data_struct::graphic_information const & gi );
-	void rotate_graph( double const radian, data_struct::square & sq );
+	BOOL update_frame();
+	int load_texture( std::string const & filename );
 
+	void draw_graph( position pos, double angle, double const scale, int const alpha, data_struct::graphic_information const & gi );
 	// 定数値(マクロ)
 	int const WINMODE = TRUE; // ウィンドウモードの指定（TRUE:ウィンドウモード／FALSE:フルスクリーン）
 	int const SCREEN_WIDTH = 640;	// ウィンドウの幅

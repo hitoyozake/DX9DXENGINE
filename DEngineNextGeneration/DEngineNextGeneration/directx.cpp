@@ -1,8 +1,10 @@
 #include "directx_class_def.h"
 #include "directx_include.h"
+#include "directx_private.h"
 #include "model.h"
 #include "directx.h"
 #include "mathdef.h"
+
 
 namespace direct_x_settings
 {
@@ -421,36 +423,14 @@ namespace direct_x_settings
 		}
 	}
 
-	//À•W‚É‰æ‘œ‚ğ•\¦
-	void draw_graph2( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
-	{
-		//’¸“_ƒf[ƒ^‚ÌŠi”[
-		auto table = init_vertex( std::make_pair( 0, 0 ), \
-			std::make_pair( gi.width_, \
-			 gi.height_ ), alpha );
-
-
-		data_struct::square tmp( table, gi.tex_ );
-
-		//Šgk
-		zoom_graph( scale, std::ref( tmp ) );
-
-		//‰ñ“]
-		rotate_graph( mathdef::radian * angle, std::ref( tmp ) );
-
-		//ˆÚ“®
-		move_graph( pos, tmp );
-
-		data_struct::vertex.push_back( tmp );
-	}
-
+	
 	//À•W‚É‰æ‘œ‚ğ•\¦2
 	void draw_graph( position pos, double const angle, double const scale, int const alpha, data_struct::graphic_information const & gi )
 	{
 		//’¸“_ƒf[ƒ^‚ÌŠi”[
 		auto tables = create_devided_vertex( std::make_pair( 0, 0 ), \
 			std::make_pair( gi.width_, \
-			gi.height_ ), 2, 2, alpha );
+			gi.height_ ), 1, 3, alpha );
 
 		static double ang = 4;
 		ang += 0.1;
@@ -458,8 +438,8 @@ namespace direct_x_settings
 		for( auto table : tables )
 		{
 			data_struct::square tmp( table, gi.tex_ );
-			tmp.vertex_div_h = 2;
-			tmp.vertex_div_w = 2;
+			tmp.vertex_div_w = 1;
+			tmp.vertex_div_h = 3;
 			//Šgk
 			zoom_graph( scale, std::ref( tmp ) );
 
