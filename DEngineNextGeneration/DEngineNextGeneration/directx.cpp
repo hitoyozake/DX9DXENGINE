@@ -4,6 +4,7 @@
 #include "model.h"
 #include "directx.h"
 #include "mathdef.h"
+#include "game_main.h"
 
 
 namespace direct_x_settings
@@ -245,7 +246,7 @@ namespace direct_x_settings
 		draw_3d();
 		//============================================================
 
-		//::game_main::game_main();
+		::game_main::game_main();
 
 		//============================================================
 		/* ÉVÅ[ÉìèIóπ */

@@ -7,7 +7,5 @@ namespace direct_x_settings
 	{
 		std::vector< square > vertex;
 		std::vector< graphic_information > texture;
-
-
 	}
 }
