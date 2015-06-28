@@ -28,6 +28,9 @@
     <Filter Include="ソース ファイル\mathdef">
       <UniqueIdentifier>{023af8b0-7a7c-42b7-8d2b-bcca1eecbf87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gamemain">
+      <UniqueIdentifier>{0964542e-51a6-4c51-ae41-c6a8e9f15498}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,6 +60,15 @@
     <ClCompile Include="graphic_api.cpp">
       <Filter>ソース ファイル\directX\graphicAPI</Filter>
     </ClCompile>
+    <ClCompile Include="game_main.cpp">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h">
@@ -72,9 +84,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="directx_class_def.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="game_main.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="foo.h">
@@ -99,6 +108,15 @@
       <Filter>ソース ファイル\mathdef</Filter>
     </ClInclude>
     <ClInclude Include="directx_private.h">
+      <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="game_main.h">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
       <Filter>ソース ファイル\directX</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,4 +17,6 @@ namespace direct_x_settings
 	void rotate_graph( double const radian, data_struct::square & sq );
 	void zoom_graph( double const scale, data_struct::square & sq );
 
+	
+
 }

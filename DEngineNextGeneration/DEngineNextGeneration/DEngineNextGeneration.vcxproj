@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -84,10 +84,13 @@
     <ClCompile Include="directx.cpp" />
     <ClCompile Include="directx_class_define.cpp" />
     <ClCompile Include="foo.cpp" />
+    <ClCompile Include="game_main.cpp" />
     <ClCompile Include="graphic_api.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="modelloader.cpp" />
+    <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -100,9 +103,11 @@
     <ClInclude Include="fps.h" />
     <ClInclude Include="game_main.h" />
     <ClInclude Include="graphic_api.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="mathdef.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modelloader.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="standard_include.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
