@@ -31,6 +31,9 @@
     <Filter Include="ソース ファイル\gamemain">
       <UniqueIdentifier>{0964542e-51a6-4c51-ae41-c6a8e9f15498}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gamemain\global">
+      <UniqueIdentifier>{4f6d7a24-dadc-4194-9ff7-c82b2de96ff2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル\directX</Filter>
+    </ClCompile>
+    <ClCompile Include="initialize.cpp">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>ソース ファイル\gamemain\global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +127,15 @@
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>ソース ファイル\directX</Filter>
+    </ClInclude>
+    <ClInclude Include="initialize.h">
+      <Filter>ソース ファイル\gamemain</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>ソース ファイル\gamemain\global</Filter>
+    </ClInclude>
+    <ClInclude Include="global_game_object.h">
+      <Filter>ソース ファイル\gamemain\global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

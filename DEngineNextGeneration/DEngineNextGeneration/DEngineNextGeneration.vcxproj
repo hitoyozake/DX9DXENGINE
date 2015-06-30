@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,7 +85,9 @@
     <ClCompile Include="directx_class_define.cpp" />
     <ClCompile Include="foo.cpp" />
     <ClCompile Include="game_main.cpp" />
+    <ClCompile Include="global.cpp" />
     <ClCompile Include="graphic_api.cpp" />
+    <ClCompile Include="initialize.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
@@ -102,7 +104,10 @@
     <ClInclude Include="foo.h" />
     <ClInclude Include="fps.h" />
     <ClInclude Include="game_main.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="global_game_object.h" />
     <ClInclude Include="graphic_api.h" />
+    <ClInclude Include="initialize.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="mathdef.h" />
     <ClInclude Include="model.h" />

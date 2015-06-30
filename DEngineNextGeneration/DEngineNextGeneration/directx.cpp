@@ -4,6 +4,7 @@
 #include "model.h"
 #include "directx.h"
 #include "mathdef.h"
+#include "global.h"
 #include "game_main.h"
 
 
@@ -204,12 +205,8 @@ namespace direct_x_settings
 
 	BOOL update_frame()
 	{
-		//現在のキー情報を取得
-		if( !GetKeyboardState( gl_keyblard_table ) )
-		{
-			MessageBox( hWnd, "キー情報の取得に失敗", "ERROR", MB_OK );
-			return FALSE;
-		}
+		//何らかのコールバックにして関係性を経つ.
+		game_main::global::dx_input.update();
 
 		/* 画面のクリア */
 		gl_lpD3ddev->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA( 140, 140, 140, 0xFF ), 1.0f, 0 );
@@ -229,6 +226,11 @@ namespace direct_x_settings
 			p.x_ = 320.0f;
 			p.y_ += x;
 			//draw_graph( p, data_struct::texture[ index ] );
+			
+			if( game_main::global::input.pressed( VK_RIGHT ) > 0 )
+			{
+				c += 1;
+			}
 
 			graphic_api::draw_graph_alpha( index, 320 + 30 * c, x, 128, 90.0 );
 		}

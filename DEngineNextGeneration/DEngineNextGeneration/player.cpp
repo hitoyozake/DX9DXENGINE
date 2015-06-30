@@ -7,6 +7,12 @@ namespace game_main
 	{
 		player_class player;
 
+		player_class::player_class()
+		{
+
+		}
+
+
 		void main()
 		{
 			
