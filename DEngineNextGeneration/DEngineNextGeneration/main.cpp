@@ -22,12 +22,15 @@ std::vector< models::i_model * > xtex;
 DWORD material_num = 0;
 LPD3DXMESH mesh;
 
+HINSTANCE hInst;
 
 int WINAPI WinMain( HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWinMode )
 {
 	using namespace direct_x_settings;
 	MSG msg;		// メッセージ構造体変数
 	HRESULT hr;
+
+	hInst = hThisInst;
 
 	//表示するウィンドウの定義、登録、表示
 	if( !InitApp( hThisInst, nWinMode ) ) return ( FALSE );

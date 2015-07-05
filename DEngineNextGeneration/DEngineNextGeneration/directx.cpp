@@ -6,6 +6,7 @@
 #include "mathdef.h"
 #include "global.h"
 #include "game_main.h"
+#include "gamepad.h"
 
 
 namespace direct_x_settings
@@ -207,6 +208,8 @@ namespace direct_x_settings
 	{
 		//何らかのコールバックにして関係性を経つ.
 		game_main::global::dx_input.update();
+		input::joystick::get_gamepad_info();
+
 
 		/* 画面のクリア */
 		gl_lpD3ddev->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA( 140, 140, 140, 0xFF ), 1.0f, 0 );
@@ -220,6 +223,12 @@ namespace direct_x_settings
 
 		//x += 1.0f;
 		int c = 0;
+
+		if( game_main::global::input.pressed( VK_RIGHT ) > 0 )
+		{
+			c += 1;
+		}
+
 		for( auto const & index : tex_index_list )
 		{
 			position p;
@@ -227,10 +236,6 @@ namespace direct_x_settings
 			p.y_ += x;
 			//draw_graph( p, data_struct::texture[ index ] );
 			
-			if( game_main::global::input.pressed( VK_RIGHT ) > 0 )
-			{
-				c += 1;
-			}
 
 			graphic_api::draw_graph_alpha( index, 320 + 30 * c, x, 128, 90.0 );
 		}
@@ -471,6 +476,9 @@ namespace direct_x_settings
 	void initialize()
 	{
 		init_render();
+
+		//inputの初期化
+		input::initialize( );
 
 		/*if( auto const r = models::mdl_loader.load_model( "./saturn.x", gl_lpD3ddev ) )
 		{
@@ -734,6 +742,22 @@ namespace direct_x_settings
 		case WM_DESTROY:        // 閉じるボタンをクリックした時
 			PostQuitMessage( 0 ); // WM_QUITメッセージを発行
 			break;
+		case WM_ACTIVATE:
+			//joypadが有効ならば
+			if( wParam == WA_INACTIVE )
+			{
+				input::joystick::p_dinput_device->Unacquire();
+			}
+			else
+			{
+				input::joystick::p_dinput_device->Acquire();
+			}
+
+			break;
+		case WM_TIMER:
+
+			break;
+
 		default: // 上記以外のメッセージはWindowsへ処理を任せる
 			return DefWindowProc( hWnd, message, wParam, lParam );
 		}

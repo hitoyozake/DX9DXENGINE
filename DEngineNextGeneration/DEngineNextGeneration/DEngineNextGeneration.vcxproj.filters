@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\gamemain\global">
       <UniqueIdentifier>{4f6d7a24-dadc-4194-9ff7-c82b2de96ff2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\directX\input">
+      <UniqueIdentifier>{189d9b32-210f-4392-bbc7-2cef5432fa23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="global.cpp">
       <Filter>ソース ファイル\gamemain\global</Filter>
+    </ClCompile>
+    <ClCompile Include="gamepad.cpp">
+      <Filter>ソース ファイル\directX\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +131,6 @@
     <ClInclude Include="player.h">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>ソース ファイル\directX</Filter>
-    </ClInclude>
     <ClInclude Include="initialize.h">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClInclude>
@@ -136,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="global_game_object.h">
       <Filter>ソース ファイル\gamemain\global</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ソース ファイル\directX\input</Filter>
+    </ClInclude>
+    <ClInclude Include="gamepad.h">
+      <Filter>ソース ファイル\directX\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

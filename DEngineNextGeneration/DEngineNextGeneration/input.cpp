@@ -2,14 +2,28 @@
 #include "directx_include.h"
 #include "global.h"
 
+#include <boost/bind.hpp>
+#include "gamepad.h"
+
 namespace input
 {
+	void initialize()
+	{
+		auto f = boost::bind( & input::update, std::addressof( game_main::global::input ), _1 );
+		game_main::global::dx_input.set_signal(	f );
+
+		joystick::initialize_dinput( direct_x_settings::hWnd );
+	}
+
 	bool dx_input::update()
 	{
 		constexpr unsigned char PRESSED = 0x80;
 		
+		//ゲームパッドのチェック
+
 		if( GetKeyboardState( keyboard_table ) )
 		{
+			//キーボードのチェック
 			for( std::size_t i = 0; i < KEY_MAX; ++i )
 			{
 				if( keyboard_table[ i ] & PRESSED )
@@ -21,8 +35,11 @@ namespace input
 					keyboard_table[ i ] = 0;
 				}
 			}
-			game_main::global::input.copy( keyboard_table );
-			signal_();
+
+			js_.update();
+
+			//game_main::global::input.update( keyboard_table );
+			signal_( keyboard_table );
 
 			return true;
 		}
@@ -30,10 +47,11 @@ namespace input
 			return false;
 	}
 
-	void dx_input::set_signal( void( *fp )( void ) )
+	void dx_input::set_signal( std::function< void ( unsigned char table[] ) > const & f )
 	{
-		signal_.connect( fp );
+		signal_.connect( f );
 	}
+
 
 	int input::released( int const KEY ) const
 	{
@@ -51,13 +69,25 @@ namespace input
 		//TODO enum classに変更
 		if( KEY < 0 || KEY >= KEY_MAX )
 		{
-			return -1;
+			return -1;	//return 0でも可?
 		}
 
 		return gl_keyboard_table[ KEY ];
 	}
 
-	void input::copy( unsigned char table[] )
+	int input::pressed_gamepad( int const KEY ) const
+	{
+		return this->gamepad_state[ KEY ];
+	}
+
+	int input::pressed_gamepad( int const KEY ) const
+	{
+		return this->gamepad_state[ KEY ];
+	}
+
+
+
+	void input::update( unsigned char table[] )
 	{
 		for( std::size_t i = 0; i < KEY_MAX; ++i )
 		{

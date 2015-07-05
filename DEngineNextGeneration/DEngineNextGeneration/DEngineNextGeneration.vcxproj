@@ -84,6 +84,7 @@
     <ClCompile Include="directx.cpp" />
     <ClCompile Include="directx_class_define.cpp" />
     <ClCompile Include="foo.cpp" />
+    <ClCompile Include="gamepad.cpp" />
     <ClCompile Include="game_main.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="graphic_api.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="directx_private.h" />
     <ClInclude Include="foo.h" />
     <ClInclude Include="fps.h" />
+    <ClInclude Include="gamepad.h" />
     <ClInclude Include="game_main.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="global_game_object.h" />
