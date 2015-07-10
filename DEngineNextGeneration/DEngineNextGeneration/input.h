@@ -4,6 +4,7 @@
 #include <boost/optional.hpp>
 #include <functional>
 #include <Windows.h>
+#include "gamepad.h"
 
 extern HINSTANCE hInst;
 
@@ -12,7 +13,7 @@ namespace input
 	namespace bs2 = boost::signals2;
 
 	constexpr unsigned int KEY_MAX = 256;
-	constexpr unsigned int BUTTON_MAX = 32;
+	constexpr unsigned int BUTTON_MAX = joystick::BUTTON_NUM + joystick::DIRECTION_NUM;
 
 	void initialize();
 
@@ -31,8 +32,8 @@ namespace input
 	private:
 		int gl_keyboard_table[ KEY_MAX ];	//ƒL[ƒ{[ƒh‚Ìó‘Ô‚ğŠi”[
 		int gl_keyboard_table_r[ KEY_MAX ];	//ƒL[ƒ{[ƒh‚Ìó‘Ô‚ğŠi”[ - released
-		int gamepad_state[ BUTTON_MAX ];	//gamepadó‘Ô‚ÌŠi”[
-		int gamepad_state[ BUTTON_MAX ];	//gamepadó‘Ô‚ğŠi”[ - released
+		int gamepad_state_[ BUTTON_MAX ];	//gamepadó‘Ô‚ÌŠi”[
+		int gamepad_state_r[ BUTTON_MAX ];	//gamepadó‘Ô‚ğŠi”[ - released
 
 	};
 

@@ -37,6 +37,9 @@
     <Filter Include="ソース ファイル\directX\input">
       <UniqueIdentifier>{189d9b32-210f-4392-bbc7-2cef5432fa23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\animation">
+      <UniqueIdentifier>{ed141081-8ca8-4792-a8b1-15b08a825ef2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,9 +75,6 @@
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル\directX</Filter>
-    </ClCompile>
     <ClCompile Include="initialize.cpp">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClCompile>
@@ -83,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="gamepad.cpp">
       <Filter>ソース ファイル\directX\input</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\directX\input</Filter>
+    </ClCompile>
+    <ClCompile Include="asset.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>ソース ファイル\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="gamepad.h">
       <Filter>ソース ファイル\directX\input</Filter>
+    </ClInclude>
+    <ClInclude Include="asset.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>ソース ファイル\animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

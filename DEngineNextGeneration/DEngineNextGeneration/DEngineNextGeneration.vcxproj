@@ -79,6 +79,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="asset.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="directx.cpp" />
@@ -96,6 +98,8 @@
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="asset.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="boost.h" />
     <ClInclude Include="directx.h" />

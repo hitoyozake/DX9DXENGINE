@@ -20,7 +20,7 @@ namespace input
 		LPDIRECTINPUTDEVICE8 p_dinput_device = nullptr;
 		bool joypad_available = false;
 		bool right = false;
-		BOOL CALLBACK enum_axes_callback( const DIDEVICEOBJECTINSTANCE *pdidoi, VOID *pContext );
+		BOOL CALLBACK enum_direction_callback( const DIDEVICEOBJECTINSTANCE *pdidoi, VOID *pContext );
 
 
 		bool is_joypad_available()
@@ -28,7 +28,7 @@ namespace input
 			return joypad_available;
 		}
 
-		BOOL CALLBACK enum_axes_callback( const DIDEVICEOBJECTINSTANCE *pdidoi, VOID *pContext )
+		BOOL CALLBACK enum_direction_callback( const DIDEVICEOBJECTINSTANCE *pdidoi, VOID *pContext )
 		{
 			HRESULT     hr;
 			DIPROPRANGE diprg;
@@ -52,7 +52,7 @@ namespace input
 			HRESULT ret;
 			LPDIRECTINPUTDEVICE8 p_dev;
 
-			ret = p_dinput->CreateDevice( lpddi->guidInstance, & p_dinput_device, NULL );
+			ret = p_dinput->CreateDevice( lpddi->guidInstance, &p_dinput_device, NULL );
 
 			if( ret != DI_OK )
 			{
@@ -69,17 +69,17 @@ namespace input
 
 			HINSTANCE hinst = GetModuleHandle( NULL ); //–‚–@
 			HRESULT ret = 0;
-			
-			ret = DirectInput8Create( hinst, DIRECTINPUT_VERSION,IID_IDirectInput8,( void ** )& p_dinput, NULL );
 
-			auto release_dinput = 
-			[]()
+			ret = DirectInput8Create( hinst, DIRECTINPUT_VERSION, IID_IDirectInput8, ( void ** )& p_dinput, NULL );
+
+			auto release_dinput =
+				[]()
 			{
 				p_dinput_device->Release();
 				p_dinput->Release();
 				return FALSE;
 			};
-		
+
 			//p_dinput_device = nullptr;
 
 			//find joystick
@@ -87,7 +87,7 @@ namespace input
 
 			if( p_dinput_device == nullptr )
 			{
-				 p_dinput->Release();
+				p_dinput->Release();
 				return TRUE;
 			}
 
@@ -115,7 +115,7 @@ namespace input
 
 
 			//set range of axis
-			ret = p_dinput_device->EnumObjects( enum_axes_callback, ( VOID* )hwnd, DIDFT_AXIS );
+			ret = p_dinput_device->EnumObjects( enum_direction_callback, ( VOID* )hwnd, DIDFT_AXIS );
 			p_dinput_device->Acquire();
 
 			joypad_available = true;
@@ -125,7 +125,8 @@ namespace input
 
 		void joystick::update()
 		{
-			std::fill( axes_, axes_ + 4, false );
+			//initialize
+			std::fill( direction_, direction_ + DIRECTION_NUM, false );
 			std::fill( button_, button_ + BUTTON_NUM, false );
 
 			if( joypad_available )
@@ -148,25 +149,25 @@ namespace input
 					if( di_joystate.lX > 100 )
 					{
 						//game_main::global
-						axes_[ E_BUTTON_R ] = true;
+						direction_[ E_BUTTON_R ] = true;
 					}
 					if( di_joystate.lX < -100 )
 					{
-						axes_[ E_BUTTON_L ] = true;
+						direction_[ E_BUTTON_L ] = true;
 					}
 					if( di_joystate.lY > 100 )
 					{
-						axes_[ E_BUTTON_U ] = true;
+						direction_[ E_BUTTON_U ] = true;
 					}
 					if( di_joystate.lY < -100 )
 					{
-						axes_[ E_BUTTON_D ] = true;
+						direction_[ E_BUTTON_D ] = true;
 					}
-
 
 				}
 
-		}
+			}
 
+		}
 	}
 }

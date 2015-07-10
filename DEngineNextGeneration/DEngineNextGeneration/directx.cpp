@@ -208,7 +208,6 @@ namespace direct_x_settings
 	{
 		//何らかのコールバックにして関係性を経つ.
 		game_main::global::dx_input.update();
-		input::joystick::get_gamepad_info();
 
 
 		/* 画面のクリア */
@@ -224,7 +223,7 @@ namespace direct_x_settings
 		//x += 1.0f;
 		int c = 0;
 
-		if( game_main::global::input.pressed( VK_RIGHT ) > 0 )
+		if( game_main::global::input.pressed( VK_RIGHT ) > 0 || game_main::global::input.pressed_gamepad( 0 ) )
 		{
 			c += 1;
 		}

@@ -38,6 +38,13 @@ namespace input
 
 			js_.update();
 
+			for( std::size_t i = 0; i < BUTTON_MAX; ++i )
+			{
+				{
+
+				}
+			}
+
 			//game_main::global::input.update( keyboard_table );
 			signal_( keyboard_table );
 
@@ -80,9 +87,9 @@ namespace input
 		return this->gamepad_state[ KEY ];
 	}
 
-	int input::pressed_gamepad( int const KEY ) const
+	int input::released_gamepad( int const KEY ) const
 	{
-		return this->gamepad_state[ KEY ];
+		return this->gamepad_state_r[ KEY ];
 	}
 
 
