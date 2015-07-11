@@ -7,5 +7,17 @@ namespace direct_x_settings
 	{
 		std::vector< square > vertex;
 		std::vector< graphic_information > texture;
+
+		class texture_manager
+		{
+		public:
+			graphic_information const & get( int const handle ) const
+			{
+				return texture_[ handle ];
+			}
+		private:
+			std::vector< graphic_information > texture_;
+
+		};
 	}
 }

@@ -14,7 +14,6 @@ namespace direct_x_settings
 	
 	std::vector< int > tex_index_list;
 
-	
 	//頂点フォーマット
 	int long FVF_TLVERTEX = ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 );
 
@@ -33,6 +32,38 @@ namespace direct_x_settings
 	LRESULT CALLBACK WinProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 	void move_graph( position const & pos, data_struct::square & sq );
 
+	struct graph_asset_manager
+	{
+		//デストラクタでreleaseを行ってくれるクラス
+		//globalで定義しておくこと
+		//releaseを手動で行うことも可
+		~graph_asset_manager()
+		{
+			release();
+		}
+
+		void reset()
+		{
+			release();
+		}
+
+	private:
+		std::vector< int > handle_;
+
+		void release()
+		{
+			for( auto const i : handle_ )
+			{
+				if( data_struct::texture[ i ].tex_ != nullptr )
+				{
+					data_struct::texture[ i ].tex_->Release();
+					data_struct::texture[ i ].tex_ = nullptr;
+
+				}
+			}
+			handle_.resize( 0 );
+		}
+	};
 
 	//ロードに成功した場合はグラフィックハンドルを返す(index)
 	int load_texture( std::string const & filename )
@@ -672,7 +703,6 @@ namespace direct_x_settings
 	void ReleaseD3D( void )
 	{
 		//テクスチャの開放
-
 		for( auto & i : data_struct::texture )
 		{
 			if( i.tex_ != NULL )
@@ -688,7 +718,7 @@ namespace direct_x_settings
 			gl_lpD3ddev->Release();
 			gl_lpD3ddev = NULL;
 		}
-		//DirectX8オブジェクトの開放
+		//DirectX9オブジェクトの開放
 		if( gl_lpD3d != NULL )
 		{
 			gl_lpD3d->Release();
@@ -743,15 +773,17 @@ namespace direct_x_settings
 			break;
 		case WM_ACTIVATE:
 			//joypadが有効ならば
-			if( wParam == WA_INACTIVE )
+			if( input::joystick::is_joypad_available() )
 			{
-				input::joystick::p_dinput_device->Unacquire();
+				if( wParam == WA_INACTIVE )
+				{
+					input::joystick::p_dinput_device->Unacquire();
+				}
+				else
+				{
+					input::joystick::p_dinput_device->Acquire();
+				}
 			}
-			else
-			{
-				input::joystick::p_dinput_device->Acquire();
-			}
-
 			break;
 		case WM_TIMER:
 

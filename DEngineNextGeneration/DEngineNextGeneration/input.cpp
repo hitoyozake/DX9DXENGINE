@@ -84,7 +84,7 @@ namespace input
 
 	int input::pressed_gamepad( int const KEY ) const
 	{
-		return this->gamepad_state[ KEY ];
+		return this->gamepad_state_[ KEY ];
 	}
 
 	int input::released_gamepad( int const KEY ) const

@@ -1,51 +1,32 @@
 #pragma once
 
+#include "boost.h"
+#include "directx_include.h"
+#include "standard_include.h"
+
 #include <map>
 #include <string>
 
 namespace anim
 {
-	constexpr int DEFAULT = 0;
-
-	class asset
+	class graph_loader
 	{
 	public:
-		int get_asset( std::string const & asset_name) const
-		{
-			auto const f = handle_.find( asset_name );
-
-			if( f == handle_.cend() )
-			{
-				return 0;
-			}
-			return f->second;
-		}
+		boost::optional< std::vector< std::string > > load_anim( std::string const & animlist_filename );
+		void register_anim( std::vector< std::string > const & strs, std::map< std::string, int > & map );
 
 	private:
-		std::map< std::string, int > handle_;
-
+		std::vector< std::string > parse( std::string const & str ) const;
 	};
 
 
-	class anim
-	{
-	public:
-		class frame
-		{
-		public:
-
-		private:
-		};
-
-	private:
-
-	};
-
-	class animation_manager
+	class asset_pool
 	{
 	public:
 	private:
 	};
+
+
 
 }
 
