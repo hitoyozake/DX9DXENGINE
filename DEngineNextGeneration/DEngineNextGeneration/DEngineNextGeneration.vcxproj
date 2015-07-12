@@ -95,6 +95,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="modelloader.cpp" />
+    <ClCompile Include="module.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -113,11 +114,13 @@
     <ClInclude Include="global.h" />
     <ClInclude Include="global_game_object.h" />
     <ClInclude Include="graphic_api.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="initialize.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="mathdef.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modelloader.h" />
+    <ClInclude Include="module.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="standard_include.h" />
   </ItemGroup>

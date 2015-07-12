@@ -40,6 +40,12 @@
     <Filter Include="ソース ファイル\animation">
       <UniqueIdentifier>{ed141081-8ca8-4792-a8b1-15b08a825ef2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\asset">
+      <UniqueIdentifier>{12abaec4-d239-4f89-8539-49f0aeed6624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\module">
+      <UniqueIdentifier>{4d25c197-2736-4cdd-8d65-39e874c9f5b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="animation.cpp">
       <Filter>ソース ファイル\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="module.cpp">
+      <Filter>ソース ファイル\module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +169,12 @@
     </ClInclude>
     <ClInclude Include="animation.h">
       <Filter>ソース ファイル\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>ソース ファイル\asset</Filter>
+    </ClInclude>
+    <ClInclude Include="module.h">
+      <Filter>ソース ファイル\module</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
