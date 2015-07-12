@@ -46,6 +46,12 @@
     <Filter Include="ソース ファイル\module">
       <UniqueIdentifier>{4d25c197-2736-4cdd-8d65-39e874c9f5b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gamemain\initialize">
+      <UniqueIdentifier>{8056da0f-a6c7-479b-ac29-dd889886b18d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\initialize">
+      <UniqueIdentifier>{2e089fe0-644d-4b64-9048-90883a9e3e7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,9 +87,6 @@
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClCompile>
-    <ClCompile Include="initialize.cpp">
-      <Filter>ソース ファイル\gamemain</Filter>
-    </ClCompile>
     <ClCompile Include="global.cpp">
       <Filter>ソース ファイル\gamemain\global</Filter>
     </ClCompile>
@@ -101,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="module.cpp">
       <Filter>ソース ファイル\module</Filter>
+    </ClCompile>
+    <ClCompile Include="initialize_gm.cpp">
+      <Filter>ソース ファイル\gamemain\initialize</Filter>
+    </ClCompile>
+    <ClCompile Include="initialize.cpp">
+      <Filter>ソース ファイル\initialize</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +158,6 @@
     <ClInclude Include="player.h">
       <Filter>ソース ファイル\gamemain</Filter>
     </ClInclude>
-    <ClInclude Include="initialize.h">
-      <Filter>ソース ファイル\gamemain</Filter>
-    </ClInclude>
     <ClInclude Include="global.h">
       <Filter>ソース ファイル\gamemain\global</Filter>
     </ClInclude>
@@ -175,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="module.h">
       <Filter>ソース ファイル\module</Filter>
+    </ClInclude>
+    <ClInclude Include="initialize_gm.h">
+      <Filter>ソース ファイル\gamemain\initialize</Filter>
+    </ClInclude>
+    <ClInclude Include="initialize.h">
+      <Filter>ソース ファイル\initialize</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

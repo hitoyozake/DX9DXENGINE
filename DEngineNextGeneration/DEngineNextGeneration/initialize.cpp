@@ -1,10 +1,14 @@
 #include "initialize.h"
+#include "global.h"
 
-
-namespace game_main
+namespace initialize
 {
-	namespace initialize
+	bool initialize()
 	{
-
+		return true;
 	}
 }
+
+
+
+

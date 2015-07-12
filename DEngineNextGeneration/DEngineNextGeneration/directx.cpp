@@ -7,7 +7,8 @@
 #include "global.h"
 #include "game_main.h"
 #include "gamepad.h"
-
+#include "initialize.h"
+#include "initialize_gm.h"
 
 namespace direct_x_settings
 {
@@ -242,7 +243,7 @@ namespace direct_x_settings
 
 
 		/* 画面のクリア */
-		gl_lpD3ddev->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA( 140, 140, 140, 0xFF ), 1.0f, 0 );
+		gl_lpD3ddev->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_RGBA( 140, 140, 140, 0xFF ), 1.0f, 0 );
 		//シーン開始
 		gl_lpD3ddev->BeginScene();
 
@@ -345,6 +346,26 @@ namespace direct_x_settings
 		gl_lpD3ddev->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZENABLE, D3DZB_TRUE );
 		gl_lpD3ddev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
+
+		//Zバッファへの書き込みをしないようにする #ステンシルバッファ関係
+		//gl_lpD3ddev->SetRenderState( D3DRS_ZFUNC, D3DCMP_NEVER );
+		//ステンシルテストを有効にする #ステンシルバッファ関係
+		gl_lpD3ddev->SetRenderState( D3DRS_STENCILENABLE, TRUE );
+
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILREF, 0x05 );          //ステンシル参照値を0x05にする。
+
+		//マスクの設定
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILMASK, 0xffffffff );          //ステンシルマスクの設定。
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILWRITEMASK, 0xffffffff );          //ステンシルマスクの設定。
+
+		////どんな条件が成立した時にステンシルバッファに書き込むのか？　の設定
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILFUNC, D3DCMP_ALWAYS );          //必ずステンシルバッファに描きこませる、という設定。
+
+		////書き込む場合、どんな値を書き込むのか？の設定。
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP );          //ステンシルテストに不合格の時・・・何もしない。
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILZFAIL, D3DSTENCILOP_REPLACE );          //ステンシルテストに合格、深度テストに不合格の時・・・指定したステンシル参照値を書き込む。
+		//gl_lpD3ddev->SetRenderState( D3DRS_STENCILPASS, D3DSTENCILOP_KEEP );          //ステンシルテストと深度テストに合格の時・・・何もしない。
+
 
 		//テクスチャの設定
 		//透明s度の設定
@@ -505,6 +526,9 @@ namespace direct_x_settings
 
 	void initialize()
 	{
+		//ゲームシステム系(anim,graphなどの)初期化
+		game_main::initialize::initialize();
+
 		init_render();
 
 		//inputの初期化
@@ -665,7 +689,7 @@ namespace direct_x_settings
 		//
 		gl_d3dpp.EnableAutoDepthStencil = TRUE;
 		// ステンシルフォーマット
-		gl_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+		gl_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;// D3DFMT_D16;
 		// ウインドウモードの設定
 		gl_d3dpp.Windowed = WINMODE;
 

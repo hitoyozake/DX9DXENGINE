@@ -76,7 +76,9 @@ namespace input
 				[]()
 			{
 				p_dinput_device->Release();
+				p_dinput_device = nullptr;
 				p_dinput->Release();
+				p_dinput = nullptr;
 				return FALSE;
 			};
 
@@ -88,6 +90,7 @@ namespace input
 			if( p_dinput_device == nullptr )
 			{
 				p_dinput->Release();
+				p_dinput = nullptr;
 				return TRUE;
 			}
 

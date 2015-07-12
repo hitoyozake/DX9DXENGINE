@@ -91,6 +91,7 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="graphic_api.cpp" />
     <ClCompile Include="initialize.cpp" />
+    <ClCompile Include="initialize_gm.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="graphic_api.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="initialize.h" />
+    <ClInclude Include="initialize_gm.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="mathdef.h" />
     <ClInclude Include="model.h" />
