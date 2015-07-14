@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\libs">
+      <UniqueIdentifier>{40d22e46-6ef3-4edb-b5a6-94414b952ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\input">
+      <UniqueIdentifier>{b9523342-1af8-4cad-a52c-31ae39e23c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\baseobject">
+      <UniqueIdentifier>{b061f680-aeb6-4d31-a691-a59683d578a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game">
+      <UniqueIdentifier>{a6bc63f7-d1a6-40ef-b39e-db3fad2a6a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene">
+      <UniqueIdentifier>{41c51b41-4321-4871-9ab8-e0e14c70f464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\global">
+      <UniqueIdentifier>{1278b979-efa5-460d-9141-997477205405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\player">
+      <UniqueIdentifier>{2e2f7cd1-55dc-44a0-b6d8-24e9fcec295c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\draw">
+      <UniqueIdentifier>{0e1fc563-8ffd-43f0-9aba-d3cb60d1226c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="winmain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\input</Filter>
+    </ClCompile>
+    <ClCompile Include="baseobject.cpp">
+      <Filter>ソース ファイル\baseobject</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>ソース ファイル\global</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="std_common.h">
+      <Filter>ソース ファイル\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ソース ファイル\input</Filter>
+    </ClInclude>
+    <ClInclude Include="baseobject.h">
+      <Filter>ソース ファイル\baseobject</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>ソース ファイル\global</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="draw.h">
+      <Filter>ソース ファイル\draw</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
